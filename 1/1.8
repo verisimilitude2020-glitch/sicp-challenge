@@ -1,0 +1,36 @@
+Newton's method for cube roots is based on the fact that if y is an approximation to the cube root of x, 
+then a better approximation is given by the value (x/y2 + 2y) / 3. 
+
+Use this formula to implement a cube-root procedure analogous to the square-root procedure. (In section 1.3.4 we will see how to implement Newton's method in general as an abstraction of these square-root and cube-root procedures.)
+
+
+===> 
+
+'x' is the number of whom we want to find cube root
+'y' is the guess.
+
+(define (square x) (* x x))
+
+(define (improve x y)
+ (/ (+ (* 2 y) (/ x (square y))) 3))
+
+(define (good_enough x y)
+(< (abs (- y (improve x y))) (/ y 1000000)))
+
+
+(define (cube_root_iter x y)
+ (if (good_enough x y) y (cube_root_iter x (improve x y))))
+
+(define (cube_root x) 
+ (cube_root_iter x 1.0))
+
+ Example runs
+
+ (cube_root 27)
+ --> 3
+
+ (cube_root 0.0000045689)
+ --> 0.016593470117686387
+
+ (cube_root 6456456456456444467876)
+ --> 18620791.90636896

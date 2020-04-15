@@ -33,3 +33,9 @@ If number is very, very large, it is difficult to represent the difference betwe
 number to be less than 0.001 from the original number. Therefore, it continues to compute and gets into infinite loop
 
 Large number: (sqrt 4343242343244444434343)
+
+The solution here is to continue computing the refined guess unless the difference between successive iterations
+of guess is less than 1 / 10,00,000. So good-enough redefinition becomes.
+
+(define (good-enough guess x)
+ (< (abs (- guess (improve guess x))) (/ guess 1000000)))

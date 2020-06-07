@@ -1,0 +1,93 @@
+Prove that Fib(n) is the closest integer to a^n/sqrt(5), where  a = (1 + sqrt(5))/2. Hint: Let b = (1 - sqrt(5))/2. Use induction and the definition of the Fibonacci numbers (see section 1.2.2) to prove that Fib(n) = (a^n - b^n)/sqrt(5).
+(where, 
+sqrt = square root,
+a = φ
+b = Ψ)
+
+==> Per the definition of Fibonacci series
+
+Fib(n) = Fib(n - 1) + Fib(n - 2)
+
+We want to prove that 
+
+Fib(n) = (a^n - b^n)/sqrt(5)
+
+Substituting this in above definition
+
+a^n - b^n     a^n-1 - b^n-1           a^n-2 - b^n-2
+----------  = -------------     +   -----------------
+sqrt(5)          sqrt(5)                sqrt(5)
+
+--> a^n - b^n  = a^n-1 - b^n-1 + a^n-2 - b^n-2
+--> a^n - b^n  =  a^n     b^n      a^n     b^n
+                  ---- -  ----  +  ---- - -----
+                   a       b        a^2     b^2
+
+                
+--> a^n - b^n  =  a^n      a^n         b^n      b^n
+                 ------ + -----   +  ----- -  --------
+                   a        a^2         b     b^2
+
+                    {  1      1   }           { 1       1    }
+--> a^n - b^n = a^n { --- +   --- }    -  b^n { --- +  ---   } 
+                    {  a      a^2 }           { b      b^2   }
+
+
+But, a = (1 + sqrt(5))/2 and b = (1 - sqrt(5)) / 2
+
+Substituting these values back into above step only on the rhs.
+
+
+                    {    1                       1            }           {       1                   1            }
+--> a^n - b^n = a^n { --------------   + -------------------  }    -  b^n { -------------   +  -----------------   } 
+                    { (1 + sqrt(5))/2     ((1 + sqrt(5))/2)^2 }           { (1 - sqrt(5))/2    ((1 - sqrt(5))/2)^2 }
+
+
+                    {    2                       4            }           {       2                   4            }
+--> a^n - b^n = a^n { --------------   + -------------------  }    -  b^n { -------------   +  -----------------   } 
+                    {  1 + sqrt(5)         (1 + sqrt(5))^2    }           { (1 - sqrt(5))     (1 - sqrt(5))^2      }
+
+
+                    {    2 *  (1 + sqrt(5)  + 4    }           {   2 * (1 - sqrt(5)) +  4            }
+--> a^n - b^n = a^n { ---------------------------- }  -  b^n   { ---------------------------------   } 
+                    {         (1 + sqrt(5))^2      }           {       (1 - sqrt(5))^2               }
+
+
+                    {    6 + 2 *  sqrt(5)      }           {       6 - 2 * sqrt(5)               }
+--> a^n - b^n = a^n { -----------------------  }  -  b^n   { ---------------------------------   } 
+                    {    1 + 5 + 2 * sqrt(5)   }           {       1 + 5 - 2 * sqrt(5)           }
+
+
+
+                    {    6 + 2 *  sqrt(5)      }           {       6 - 2 * sqrt(5)               }
+--> a^n - b^n = a^n { -----------------------  }  -  b^n   { ---------------------------------   } 
+                    {    6 + 2 * sqrt(5)   }               {       6 - 2 * sqrt(5)           }
+
+
+This proves that, Fib(n) = (a^n - b^n)/sqrt(5)
+
+Now,
+
+Fib(n) =   a^n                b^n
+           ----      -       -------
+          sqrt(5)            sqrt(5)
+
+
+  a^n                 b^n
+------- =   Fib(n) + ------
+sqrt(5)              sqrt(5)  
+
+
+Again,
+
+                 Fib(n)
+      0     <    -------     <    1
+                 sqrt(5)
+
+Adding Fib(n) to both sides
+                  Fib(n)
+  Fib(n)     <   -------     <    1  + Fib(n)
+                 sqrt(5)
+
+This proves that Fib(n) is the closest integer to b^n/sqrt(5). Because the difference between them can never between
+farther away than 1.

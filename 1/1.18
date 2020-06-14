@@ -1,0 +1,71 @@
+ Using the results of exercises 1.16 and 1.17, devise a procedure that generates an iterative process for multiplying two integers in terms of adding, doubling, and halving and uses a logarithmic number of steps
+
+ ==> Revisiting the solution 1.16
+
+
+ (define (fast-expt-iter a b n)
+  (cond ((= n 0)
+         a)
+        ((even? n)
+         (fast-expt-iter a (* b b) (/ n 2)))
+        (else
+         (fast-expt-iter (* a b) b (- n 1)))))
+
+(define (even? n)
+    (= (remainder n 2) 0))
+
+We considered the invariant a*b^n here and defined the following for add and even 'n'
+
+When n is even, the equation (ab)^n  becomes
+a*b^n = a * (b^n/2)^2
+       = a * (b^2)^n/2
+       = a1 * b1^n1
+
+Where, a1 = a
+       b1 = b^2
+       n1 = n/2
+When n is odd, the equation (ab)^n  becomes
+
+a*b^n = a * b * b^n-1
+      = (a*b) * b^n-1
+      = a1 * b1^n1
+
+Where, a1 = a * b
+       b1 = b
+       n1 = n - 1
+
+Below is the result from ex 1.17
+
+(define (fast-mult a b)
+  (cond ((= b 0)
+         0)
+        ((even? b)
+         (fast-mult (double a) (halve b)))
+        (else
+         (+ a (fast-mult a (- b 1))))))
+
+For this exercise, we assume the below invariant.
+
+s + ab = s + (a * 2b/2)    if b is even
+       = s + (2a * b/2)
+
+s + ab = (s + a) + (a * (b - 1)) if b is odd
+
+This yields the following procedure.
+
+define (mult a b)
+    (define (even? n)
+        (= (remainder n 2) 0))
+
+        (define (double x)
+            (* x 2))
+
+        (define (halve x)
+            (/ x 2))
+
+  (define (iter s a b)
+    (cond ((= b 0) s)
+          ((even? b) (iter s (double a) (halve b)))
+          (else (iter (+ a s) a (- b 1)))))
+  (iter 0 a b))
+

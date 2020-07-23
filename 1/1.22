@@ -70,17 +70,17 @@ Most Lisp implementations include a primitive called runtime that returns an int
 Had to test this on a low-end hardware because it was giving imprecise timing results on an Intel Core i7 machine due to being extremely super-fast.
 
 Log         Prime           Timing in microseconds
-3	          1,009	          2.8010
-3	          1,013	          2.4858
-3	          1,019	          2.3898
-4	          10,007	        7.9331
-4	          10,009	        7.9948
-4	          10,037	        7.8310
-5	          100,003	        44.663
-5	          100,019	        26.879
-5	          100,043	        24.563
-6	          1,000,003	      81.736
-6	          1,000,033	      78.949
-6	          1,000,037	      79.261
+3	          1,009	          2.8
+3	          1,013	          2.4
+3	          1,019	          2.3
+4	          10,007	        7.9
+4	          10,009	        7.9
+4	          10,037	        7.8
+5	          100,003	        44.6
+5	          100,019	        26.8
+5	          100,043	        24.5
+6	          1,000,003	      81.7
+6	          1,000,033	      78.9
+6	          1,000,037	      79.2
 
 Computing the sucessive average of each 3 from the above table and dividing them, we find the ratio to be close to √10 = 3.162

@@ -61,11 +61,11 @@ Most Lisp implementations include a primitive called runtime that returns an int
 ; Search for primes within a range.
 (define (search-for-primes start-range end-range)
   (if (even? start-range)
-      (search-for-primes (+ 1 start-range) end-range)
+      (search-for-primes (+ 1 start-range) end-range))
       (cond ((> start-range end-range)
              (newline) (display "done"))
             (else (timed-prime-test start-range)
-                  (search-for-primes (+ 2 start-range) end-range)))))
+                  (search-for-primes (+ 2 start-range) end-range))))
 
 Had to test this on a low-end hardware because it was giving imprecise timing results on an Intel Core i7 machine due to being extremely super-fast.
 

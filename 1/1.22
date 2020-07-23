@@ -83,4 +83,18 @@ Log         Prime           Timing in microseconds
 6	          1,000,033	      78.9
 6	          1,000,037	      79.2
 
-Computing the sucessive average of each 3 from the above table and dividing them, we find the ratio to be close to √10 = 3.162
+Computing the sucessive average of each 3 from the above table and dividing them, we find the ratio to be close to √10 = 3.162. 
+
+So 
+10,000 = 1000 * 10
+ .      
+. .   10,000
+      -------    = 10
+       1000 
+
+Taking square roots on both sides
+√10000
+-------   = √10
+√1000
+
+From this, we deduce that if we average out the timings and divide them, the ratio should be close to 3.162 

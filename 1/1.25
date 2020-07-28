@@ -1,0 +1,76 @@
+ Alyssa P. Hacker complains that we went to a lot of extra work in writing expmod. After all, she says, since we already know how to compute exponentials, we could have simply written
+
+(define (expmod base exp m)
+  (remainder (fast-expt base exp) m))
+
+Is she correct? Would this procedure serve as well for our fast prime tester? Explain
+
+==>
+
+Old definition of expmod function
+-------------------------------------
+(define (expmod base exp m)
+  (cond ((= exp 0) 1)
+        ((even? exp)
+         (remainder (square (expmod base (/ exp 2) m))
+                    m))
+        (else
+         (remainder (* base (expmod base (- exp 1) m))
+                    m))))
+
+(define (square x) (* x x))
+
+(trace expmod)
+
+(expmod 941 1000 1009)
+
+Using tracing we get below output
+>(expmod 941 1000 1009)
+> (expmod 941 500 1009)
+> >(expmod 941 250 1009)
+> > (expmod 941 125 1009)
+> > >(expmod 941 124 1009)
+> > > (expmod 941 62 1009)
+> > > >(expmod 941 31 1009)
+> > > > (expmod 941 30 1009)
+> > > > >(expmod 941 15 1009)
+> > > > > (expmod 941 14 1009)
+> > > >[10] (expmod 941 7 1009)
+> > > >[11] (expmod 941 6 1009)
+> > > >[12] (expmod 941 3 1009)
+> > > >[13] (expmod 941 2 1009)
+> > > >[14] (expmod 941 1 1009)
+> > > >[15] (expmod 941 0 1009)
+< < < <[15] 1
+< < < <[14] 941
+< < < <[13] 588
+< < < <[12] 376
+< < < <[11] 116
+< < < <[10] 184
+< < < < < 559
+< < < < <330
+< < < < 937
+< < < <860
+< < < 3
+< < <9
+< < 397
+< <205
+< 656
+<502
+502
+
+
+New definition with fast-expt
+----------------------------------
+(define (fast-expt b n)
+  (cond ((= n 0) 1)
+        ((even? n) (square (fast-expt b (/ n 2))))
+        (else (* b (fast-expt b (- n 1))))))
+
+
+(define (expmod base exp m)
+  (remainder (fast-expt base exp) m))
+
+
+
+The important point is that the original expmod procedure uses successive squaring to perform its computations without ever having to deal with numbers larger than m. Simple arithmetic with very large numbers is much slower than arithmetic with 32-bit integers. That's because the time complexity for arithmetic operations is based on the number of bits in the operands. The intermediate results during computation in the fast-expt procedure get very big, very quickly (the final result is growing exponentially, after all). Since we're only interested in the remainder, modular arithmetic provides a much sleeker solution (https://billthelizard.blogspot.com/2010/02/sicp-exercise-125-closer-look-at-expmod.html)

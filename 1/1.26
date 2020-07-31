@@ -1,0 +1,51 @@
+Louis Reasoner is having great difficulty doing exercise 1.24. His fast-prime? test seems to run more slowly than his prime? test. Louis calls his friend Eva Lu Ator over to help. When they examine Louis's code, they find that he has rewritten the expmod procedure to use an explicit multiplication, rather than calling square:
+
+(define (expmod base exp m)
+  (cond ((= exp 0) 1)
+        ((even? exp)
+         (remainder (* (expmod base (/ exp 2) m)
+                       (expmod base (/ exp 2) m))
+                    m))
+        (else
+         (remainder (* base (expmod base (- exp 1) m))
+                    m))))
+
+"I don't see what difference that could make," says Louis. "I do." says Eva. "By writing the procedure like that, you have transformed the O(log n) process into a O(n) process." Explain.
+
+
+==> 
+
+The interpreter uses application order evaluation.
+
+The original expmod procedure
+------------------------------------
+(define (expmod base exp m)
+  (cond ((= exp 0) 1)
+        ((even? exp)
+         (remainder (square (expmod base (/ exp 2) m))
+                    m))
+        (else
+         (remainder (* base (expmod base (- exp 1) m))
+                    m))))  
+
+In this case, the arguments of square will be evaluated first and then square procedure will be applied to it.
+
+(remainder (square (expmod base (/ exp 2) m)))
+
+Louis Reasoner's expmod procedure
+---------------------------------
+(define (expmod base exp m)
+  (cond ((= exp 0) 1)
+        ((even? exp)
+         (remainder (* (expmod base (/ exp 2) m)
+                       (expmod base (/ exp 2) m))
+                    m))
+        (else
+         (remainder (* base (expmod base (- exp 1) m))
+                    m))))
+
+This becomes a linear recursive procedure. The arguments of the primitive * will be evaluated first before * is applied to them. This gives rise to a series of deferred executions on one hand. The main point is  
+
+(remainder (* (expmod base (/ exp 2) m) (expmod base (/ exp 2) m)) m)
+
+This causes double the work to do since both are recursive calls. So time complexity becomes O(log 2^N) => O(N log 2) => O(log N)

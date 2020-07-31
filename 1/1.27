@@ -1,0 +1,36 @@
+Demonstrate that the Carmichael numbers listed in footnote 47 really do fool the Fermat test. That is, write a procedure that takes an integer n and tests whether an is congruent to a modulo n for every a<n, and try your procedure on the given Carmichael numbers.
+
+==>
+
+Procedure definitions for Fermat's test
+-----------------------------------------
+(define (expmod base exp m)
+  (cond ((= exp 0) 1)
+        ((even exp)
+         (remainder (square (expmod base (/ exp 2) m))
+                    m))
+
+        (else
+         (remainder (* base (expmod base (- exp 1) m))
+                    m)))) 
+
+(define (fermat-test n)
+  (define (try-it a)
+    (= (expmod a n n) a))
+  (try-it (+ 1 (random (- n 1)))))
+
+(define (even n)
+  (= (remainder n 2) 0))
+
+(define (square x) (* x x))
+
+
+561: Its factors are 11, 17 & 3
+(fermat-test 561) ===> Returns #t
+
+
+
+1105: Its factors are 1, 5, 13, 17, 65, 85, 221, 1105
+(fermat-test 1105) ===> Returns #t
+
+

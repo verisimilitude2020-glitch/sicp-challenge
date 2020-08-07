@@ -1,0 +1,101 @@
+Simpson's Rule is a more accurate method of numerical integration than the method illustrated above. Using Simpson's Rule, the integral of a function f between a and b is approximated as
+
+h
+-- * [y0 + 4y1 + 2y2 + ..... + 2yn-2 + 4yn - 1 + yn]
+3
+
+where h = (b - a)/n, for some even integer n, and yk = f(a + kh). (Increasing n increases the accuracy of the approximation.) Define a procedure that takes as arguments f, a, b, and n and returns the value of the integral, computed using Simpson's Rule. Use your procedure to integrate cube between 0 and 1 (with n = 100 and n = 1000), and compare the results to those of the integral procedure shown above.
+
+===>
+
+We have below two methods 
+
+(define (sum a b)
+    (if (> a b) 0
+    (+ (term a) (sum (next a) b ))))
+
+(define (integral f a b dx)
+  (define (add-dx x) (+ x dx))
+  (* (sum f (+ a (/ dx 2.0)) add-dx b)
+     dx))
+
+We are going to refer to these methods while trying to code the desired integral function. Let's take the first method.
+
+
+(define (sum a b)
+    (if (> a b) 0
+    (+ (term a) (sum (next a) b ))))
+
+Use this, we will be writing our simpson method.
+
+(define (simpson f a b n)
+   (/ (* h (sum term 0 inc n)) 3))
+
+Let's try to compute its various constituent parts.
+
+1. We have defined h to be h = (b - a) / 3.
+
+Defining it as a variable
+
+(define h ( / (- b a) 3)
+
+2. The inc method is the simplest. Each n is incremented at each step.
+
+(define (inc n) (+ n 1))
+
+3. Next, we compute yk = f(a + kh)
+
+(define (y k)
+   (f (+ a (* k h))))
+
+4. Next, we compute coefficients for each of the n-terms of the series.
+
+If n = 0 or n = n, the coefficient is 1.
+If n is odd, coefficient is 4.
+If n is even (except for 0), coefficient is 2
+Writing a procedure for this.
+
+(define (term k)
+   (* (cond ((= (remainder k 2) 1) 4)
+            ((or (= k 0) (= k n)) 1)
+            ((= (remainder k 2) 0) 2))
+      (y k)))
+
+
+Putting all of this together in a single procedure.
+
+===========================================================================================================
+(define (sum term a next b)
+    (if (> a b) 0
+    (+ (term a) (sum term (next a) next b))))
+
+(define (simpson f a b n)
+
+  (define (y k)
+   (f (+ a (* k h))))
+  (define (inc n) (+ n 1))
+  (define (term k)
+   (* (cond ((= (remainder k 2) 1) 4)
+            ((or (= k 0) (= k n)) 1)
+            ((= (remainder k 2) 0) 2))
+      (y k)))
+
+  (define h ( / (- b a) n))
+
+   (/ (* h (sum term 0 inc n)) 3))
+
+(define (cube x) (* x x x))
+===========================================================================================================
+(simpson cube 0 1 100.0)
+==> 0.24999999999999992
+
+(simpson cube 0 1 1000.0)
+==> 0.2500000000000003
+
+Comparing this with the output of integral function
+
+(integral cube 0 1 0.01)
+==> 0.24998750000000042
+
+(integral cube 0 1 0.001)
+==> 0.24999999999999992

@@ -1,0 +1,65 @@
+ The sum procedure above generates a linear recursion. The procedure can be rewritten so that the sum is performed iteratively. Show how to do this by filling in the missing expressions in the following definition:
+
+(define (sum term a next b)
+  (define (iter a result)
+    (if (> a b))
+        <??>
+        (iter <??> <??>)))
+  (iter <??> <??>))
+
+  ==>
+
+The linear recursive version of sum.
+
+=========================================
+(define (sum term a next b)
+    (if (> a b) 0
+    (+ (term a) (sum term (next a) next b))))
+=========================================
+
+The linear iterative version of sum
+
+===============================================
+(define (sum term a next b)
+  (define (iter a result)
+    (if (> a b))
+        result
+        (iter (next a) (+ result (term a)))))
+  (iter a 0)))
+==============================================
+
+
+Using it in the program for 1.29 for Simpson's rule
+
+
+===========================================================================================================
+(define (sum term a next b)
+  (define (iter a result)
+    (if (> a b)
+        result
+        (iter (next a) (+ result (term a)))))
+  (iter a 0))
+
+(define (simpson f a b n)
+
+  (define (y k)
+   (f (+ a (* k h))))
+  (define (inc n) (+ n 1))
+  (define (term k)
+   (* (cond ((odd? k) 4)
+            ((or (= k 0) (= k n)) 1)
+            ((even? k) 2))
+      (y k)))
+
+  (define h ( / (- b a) n))
+
+   (/ (* h (sum term 0 inc n)) 3.0))
+
+(define (cube x) (* x x x))
+===========================================================================================================
+
+(simpson cube 0 1 1000.0)
+===> 0.25000000000000006
+
+
+

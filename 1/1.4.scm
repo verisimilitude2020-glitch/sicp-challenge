@@ -1,11 +1,13 @@
+#|
 Observe that our model of computation allows for combinations whose operators are compound expressions. 
 Use this observation to describe the behavior of the following procedure.
+|#
 
 (define (a-plus-abs-b a b)
 	((if (> b 0) + -) a b)
 	)
 
-
+#|
 ==> 
 
 if b is positive, it is added to a. 
@@ -23,4 +25,4 @@ For example
 
 (a-plus-abs-b -5 -10)
 --> 5
-
+|#
